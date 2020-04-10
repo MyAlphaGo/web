@@ -28,6 +28,34 @@ class AchievementController extends Controller {
             }
         }
     }
+
+    async getAchievement() {
+        const { ctx, app } = this
+        const params = {
+            include: [
+                { model: app.model.AchievementType, attributes: ['id', 'name'] },
+                { model: app.model.UserInfo, attributes: ['avatar'] },
+                { model: app.model.User, attributes: ['name'] }
+            ],
+            where: {
+                status: 1
+            },
+            order: [["created_at", "DESC"]],
+        }
+        const achievement = await ctx.service.mysql.findAll(params, 'Achievement')
+        ctx.status = 200
+        if (achievement.length !== 0) {
+            ctx.body = {
+                success: 1,
+                data: achievement
+            }
+        } else {
+            ctx.body = {
+                success: 0
+            }
+        }
+    }
+
     async getAchievementType(){
         const achievementtype = await this.ctx.service.mysql.findAll({where:{status:1}},'AchievementType')
         this.ctx.status = 200

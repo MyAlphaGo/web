@@ -16,12 +16,15 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1580301877706_9738';
 
   // add your middleware config here
-  config.middleware = ['verify', 'send', 'params'];
+  config.middleware = ['send', 'verify', 'params'];
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
   };
+  config.jwt = {
+    secret: 'buzhidaoxieshenm',
+  }
 
   config.sequelize = {
     dialect: 'mysql',
@@ -51,11 +54,11 @@ module.exports = appInfo => {
     csrf: {
       enable: false
     },
-    domainWhiteList: [ 'http://localhost:8000' ]
+    domainWhiteList: ['http://localhost:8000']
   }
   config.cors = {
     // origin: '*',
-    credentials: true, 
+    credentials: true,
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
   }
 

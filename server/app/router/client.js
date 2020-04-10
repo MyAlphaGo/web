@@ -7,6 +7,9 @@
 
 module.exports = app => {
     const { router, controller } = app;
+    //登录注册等
+    router.post('/api/login',controller.client.login.login),
+    router.get('/api/getTime',controller.client.login.getTime),
     // 个人主页
     router.get('/user/getUserInfo/:id', controller.client.userInfo.getUserInfo)
     router.get('/user/getOtherInfo/:id', controller.client.userInfo.getOtherInfo)
@@ -27,10 +30,13 @@ module.exports = app => {
 
     //文章管理
     router.get("/article/getArticleByUserId/:userId", controller.client.article.getArticleByUserId)  //根据用户id查询文章
+    router.get("/article/getArticle",controller.client.article.getArticle)
     router.get("/article/getTechnology", controller.client.article.getTechnology)
+    router.get("/article/getArticleInfoById/:id",controller.client.article.getArticleInfoById)
 
     // 成果管理
     router.get("/achievement/getAchievementByUserId/:userId", controller.client.achievement.getAchievementByUserId)
+    router.get("/achievement/getAchievement",controller.client.achievement.getAchievement)
     router.get("/achievement/getAchievementType",controller.client.achievement.getAchievementType)
 
     // 资源管理

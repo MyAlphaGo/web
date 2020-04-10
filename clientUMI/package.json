@@ -23,12 +23,13 @@
     "@umijs/test": "^3.0.8",
     "axios": "^0.19.2",
     "lint-staged": "^10.0.7",
+    "md5": "^2.2.1",
     "prettier": "^1.19.1",
     "qs": "^6.9.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.20",
-    "react-infinite-scroller": "^1.2.4",
+    "react-visibility-sensor": "^5.1.1",
     "umi": "^3.0.8",
     "yorkie": "^2.0.0"
   }

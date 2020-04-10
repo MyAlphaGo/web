@@ -5,7 +5,7 @@ import Classify from '../components/Classify'
 import MemberList from '../components/MemberList'
 const { Sider, Content } = Layout
 
-const MemberData = (({ dispatch, member,grade,domain}) => {
+const MemberData = (({ dispatch, member,grade,domain,loading}) => {
     useEffect(() => {
         dispatch({
             type: 'member/getMembers',
@@ -30,7 +30,7 @@ const MemberData = (({ dispatch, member,grade,domain}) => {
             </Sider>
 
             <Content>
-                <MemberList userList={member} grade={grade}></MemberList>
+                <MemberList userList={member} grade={grade} loading={loading}></MemberList>
             </Content>
         </Layout>
     )
@@ -41,7 +41,7 @@ function mapStateToProps({member}) {
         domain: member.domain,
         grade:member.grade,
         member: member.member,
-        
+        loading:member.loading
     }
 }
 

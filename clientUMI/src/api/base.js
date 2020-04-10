@@ -1,4 +1,7 @@
 const base = {
+    //登录注册
+    getTime: '/api/getTime',
+    login: '/api/login',
     // 个人中心
     getUserInfo: "/user/getUserInfo",   
     getOtherInfo: "/user/getOtherInfo",
@@ -16,12 +19,13 @@ const base = {
 
     // 文章管理
     getArticleByUserId: "/article/getArticleByUserId",
-    getArticle: '/resource/getArticle',
+    getArticle: '/article/getArticle',
     getTechnology: "/article/getTechnology",
+    getArticleInfoById: "/article/getArticleInfoById",
 
     // 成果管理
     getAchievementByUserId: '/achievement/getAchievementByUserId',
-    getAchievement: '/resource/getAchievement',
+    getAchievement: '/achievement/getAchievement',
     getAchievementType: '/achievement/getAchievementType',
 
     // 资源管理

@@ -1,21 +1,19 @@
-import React from 'react'
-import { Card, Col, Row, Skeleton, Input } from 'antd'
-import InfiniteScroll from 'react-infinite-scroller';
+import React, { useEffect } from 'react'
+import { Card, Col, Row, Skeleton, Input, Spin } from 'antd'
+import VisibilitySensor from "react-visibility-sensor";
 import Customcard from '../Customcard'
 
 import './index.less'
 
-export default function ({ data, flag, hasMore, loading }: any) {
+export default function ({ data, flag, hasMore, loading, loadMore }: any) {
     const CustomCard = flag ? Customcard.Achievement : Customcard.Resource
-    function handleInfiniteOnLoad() { }
+    function handelLoading(item) {
+        if (item) {
+            loadMore()
+        }
+    }
     return (
-        <InfiniteScroll
-            initialLoad={false}
-            pageStart={0}
-            loadMore={handleInfiniteOnLoad}
-            hasMore={!loading && hasMore}
-            useWindow={false}
-        >
+        <div className="infinite-container">
             <Card
                 className="List"
                 extra={<Input.Search
@@ -28,10 +26,14 @@ export default function ({ data, flag, hasMore, loading }: any) {
                                 <CustomCard data={item} />
                             </Col>
                         })}
+                        {
+                            hasMore && <VisibilitySensor onChange={handelLoading}>
+                                <Spin />
+                            </VisibilitySensor>
+                        }
                     </Row>
                 </Skeleton>
             </Card>
-        </InfiniteScroll>
-
+        </div>
     )
 }

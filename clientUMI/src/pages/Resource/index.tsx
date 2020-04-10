@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Children } from 'react'
+import React, { useEffect } from 'react'
 import { Layout } from 'antd'
 import { connect } from 'umi'
 
@@ -7,7 +7,7 @@ import ResourceList from '../components/List'
 
 const { Sider, Content } = Layout
 
-function Resource({ resourceType, resource, dispatch, hasMore, loading }: any) {
+function Resource({ resourceType, resource,resourceAll, dispatch, hasMore, loading }: any) {
     useEffect(() => {
         dispatch({
             type: 'resource/getResourceAndTag',
@@ -22,6 +22,27 @@ function Resource({ resourceType, resource, dispatch, hasMore, loading }: any) {
             }
         })
     }
+    function loadMore() {
+        if (resourceAll.length - resource.length === 0) {
+            dispatch({
+                type: 'resource/save',
+                payload: {
+                    hasMore: false
+                }
+            })
+            return
+        }
+        let offset = 6
+        if (resourceAll.length - resource.length < offset) {
+            offset = resourceAll.length - resource.length
+        }
+        dispatch({
+            type: 'resource/save',
+            payload: {
+                pageList: resourceAll.slice(0, resource.length + offset)
+            }
+        })
+    }
     return (
         <Layout>
             <Sider
@@ -31,7 +52,7 @@ function Resource({ resourceType, resource, dispatch, hasMore, loading }: any) {
                 <Classify title="资源分类" data={resourceType} onhandleClassify={filterResource} />
             </Sider>
             <Content>
-                <ResourceList data={resource} flag={false} hasMore={hasMore} loading={loading} />
+                <ResourceList data={resource} flag={false} hasMore={hasMore} loading={loading} loadMore={loadMore} />
             </Content>
         </Layout>
     )
@@ -40,7 +61,8 @@ function Resource({ resourceType, resource, dispatch, hasMore, loading }: any) {
 function mapStateToProps({ resource }: any) {
     return {
         resourceType: resource.tags,
-        resource: resource.list,
+        resourceAll: resource.list,
+        resource: resource.pageList,
         hasMore: resource.hasMore,
         loading: resource.loading,
     }

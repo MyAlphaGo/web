@@ -7,7 +7,8 @@ export default {
         grade: [],
         domain: [],
         member: {},
-        oldmember:{}
+        oldmember:{},
+        loading:true
     },
    
     reducers: {
@@ -36,9 +37,8 @@ export default {
             })
         },
         filterUser(state,{domainId}) {
-            console.log(state.oldmember)
             let user = []
-            if (domainId === 0) {
+            if (domainId === -1) {
                 user = state.oldmember
             } else {
                 state.oldmember.map(item => {
@@ -70,6 +70,7 @@ export default {
                         domain,
                         member,
                         oldmember,
+                        loading:false
                 }
             })
         }

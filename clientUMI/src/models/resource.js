@@ -4,11 +4,12 @@ import {filterTagNum} from '../util/filter'
 export default {
     namespace: 'resource',
     state: {
+        pageList:[],
         list: [],
         oldList: [],
         tags: [],
-        hasMore: false,
-        loading: false,
+        hasMore: true,
+        loading: true,
     },
     reducers: {
         save(state, { payload }) {
@@ -21,18 +22,25 @@ export default {
             if (-1 === tag) {
                 return {
                     ...state,
-                    list: state.oldList
+                    list: state.oldList,
+                    hasMore: true,
                 }
             }
             let list = []
+            let hasMore = false
             state.oldList.map(item => {
                 if (item['tag']['id'] === tag) {
                     list.push(item)
                 }
             })
+            if(list.length>6){
+                hasMore = true
+            }
             return {
                 ...state,
-                list
+                list,
+                hasMore,
+                pageList:list.slice(0,6)
             }
         }
     },
@@ -40,7 +48,6 @@ export default {
         *getResourceAndTag({ payload: params }, { call, put }) {
             let list = []
             let tags = []
-            console.log(params)
             if (!params) {
                 list = yield call(resourceAPI.getList)
             } else {
@@ -63,9 +70,11 @@ export default {
             yield put({
                 type: 'save',
                 payload: {
+                    pageList:list.slice(0,6),
                     list,
                     tags,
-                    oldList: list
+                    oldList: list,
+                    loading:false
                 }
             })
         }

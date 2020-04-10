@@ -1,11 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
+import {message} from 'antd'
 
 axios.defaults.baseURL = "http://127.0.0.1:7001/"
 axios.default.timeOut = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
-const message = 0
 //允许axio请求携带cookies
 axios.defaults.withCredentials = true;
 
@@ -16,9 +16,9 @@ axios.interceptors.request.use(
 			config.data = qs.stringify(config.data);
 		}
 		console.log("打印请求日志" + config.url)
-		// if (sessionStorage.token) {
-		// 	config.headers.Authorization = sessionStorage.token || sessionStorage.admin;
-		// }
+		if (localStorage.token) {
+			config.headers.Authorization = localStorage.token || localStorage.admin;
+		}
 		return config;
 	},
 	(error) => {
@@ -33,7 +33,8 @@ axios.interceptors.response.use(
 				console.log("打印响应日志" + response.config.url)
 				return Promise.resolve(response.data);
 			} else {
-				return Promise.resolve(response.data);
+				console.log(response)
+				message.error(response.data.message);
 			}
 		} else {
 			return Promise.reject(response);
@@ -42,9 +43,9 @@ axios.interceptors.response.use(
 	(error) => {
 		if (error.response.status) {
 			switch (error.response.status) {
-				case 403:
+				case 401:
 					message.error('登录过期，请重新登录');
-					sessionStorage.removeItem('token');
+					localStorage.removeItem('token');
 					hashHistory.push('/login')
 					break;
 				case 404:
