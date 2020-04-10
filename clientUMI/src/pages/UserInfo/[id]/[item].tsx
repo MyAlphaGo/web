@@ -95,7 +95,6 @@ function Item({ dispatch, match, list, tags,loading }: any) {
                                 <p><a href={item.link}>{item.title}</a></p>
                                 <p><Tag color={tagColor[item.tag['id'] % 11]} >{item.tag['name']}</Tag></p>
                                 <p>{item.created_at}</p>
-
                             </List.Item>
                         )}
                     >

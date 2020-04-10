@@ -1,11 +1,14 @@
 import loginAPI from '../api/login'
 import md5 from 'md5'
+import { history } from 'umi'
 export default {
     namespace: 'auth',
     state: {
         time: '',
         username: '201710803017',
-        password: '134534532c'
+        password: '134534532c',
+        token: '',
+        isLogin: false,
     },
     reducers: {
         save(state, { payload }) {
@@ -35,11 +38,19 @@ export default {
                 const loginData = yield call(loginAPI.login, params)
                 if (loginData) {
                     localStorage.setItem('token', loginData.token)
+                    history.push(`/UserInfo/${payload.userId}/topic`)
                 }
             } catch (error) {
                 console.log(error)
             }
 
-        }
+        },
+        // *isLogin({payload}, { put }) {
+        //     if () {
+        //         if(payload.pathname!==register){
+        //             props.history.push('/login')
+        //         }
+        //     }
+        // }
     },
 }
